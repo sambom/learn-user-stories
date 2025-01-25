@@ -63,4 +63,53 @@ export class Bank implements BankType {
         this.accounts.push(account);
         return account;
     }
+
+    /**
+     * 
+     * @param id - account id
+     * @param amount - amount to withdraw
+     * @returns - the amount withdrawn
+     */
+    withdraw(id: number, amount: number): string {
+        const account = this.findAccountById(id);
+        if(!account) {
+            throw new Error('Account not found');
+        }
+        if(account.balance < amount) {
+            throw new Error('Insufficient balance');
+        }
+        account.balance -= amount;
+        return amount + ' withdrawn';
+    }
+
+    /**
+     * 
+     * @param id - account id
+     * @param amount - amount to deposit
+     * @returns - the amount deposited
+     */
+    deposit(id: number, amount: number): string {
+        const account = this.findAccountById(id);
+        if(!account) {
+            throw new Error('Account not found');
+        }
+        if(amount < 0) {
+            throw new Error('Invalid amount');
+        }
+        account.balance += amount;
+        return amount + ' deposited';
+    }
+
+    /**
+     * 
+     * @param id - account id
+     * @returns - the balance of the account
+     */
+    getBalance(id: number): number {
+        const account = this.findAccountById(id);
+        if(!account) {
+            throw new Error('Account not found');
+        }
+        return account.balance;
+    }
 }
